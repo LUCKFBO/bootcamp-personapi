@@ -8,6 +8,10 @@ import one.digitalinnovation.personapi.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class PersonService {
 
@@ -30,6 +34,11 @@ public class PersonService {
                 .build();
     }
 
-
+    public List<PersonDTO> listAll() {
+        List<Person> allPeople = personRepository.findAll();
+        return allPeople.stream() //Manipulação de dados em coleções
+                .map(personMapper::toDTO) //Para cada um dos registros converter para DTO
+                .collect(Collectors.toList());//Jogar em uma lista
+    }
 
 }
